@@ -1,0 +1,15 @@
+.mainPage {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(235.09deg, #AFECD4 25.34%, #A0D4E2 76.89%);
+    &__header {
+        display: flex;
+        justify-content: center;
+    }
+    &__canvas {
+        width: 90%;
+        display: flex;
+        margin-left: 64px;
+        margin-top: 30px;
+    }
+}
