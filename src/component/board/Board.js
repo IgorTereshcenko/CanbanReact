@@ -19,10 +19,11 @@ const Board = ({column, tasks}) => {
     return (
             <div className="board">
                 <Droppable droppableId={column.id}>
-                    {provided => (
+                    {(provided,snapshot) => (
                         <div 
-                            className="board__wrapper"
-                            ref={provided.innerRef} {...provided.droppableProps}>  
+                            className={snapshot.isDraggingOver ? 'board__wrapper board__wrapper_color' : 'board__wrapper'}
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}>  
                                 <div className="board__name">{column.title}</div>
                                 {tasks.map((task,i) => {
                                     return (

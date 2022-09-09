@@ -6,13 +6,14 @@ const Task = ({task,index}) => {
 
     return (
         <div className="task">
-            <Draggable draggableId={task.id} index={index}>
-                {provided => (
+            <Draggable draggableId={task.id} index={index} >
+                {(provided, snapshot) => (
                 <div 
-                    className="task__wrapper"
+                    className='task__wrapper'
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    ref={provided.innerRef}>
+                    ref={provided.innerRef}
+                    >
                         <div className="task__name">{task.content}</div> 
                 </div>)}     
             </Draggable>                 
