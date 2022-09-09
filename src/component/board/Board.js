@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {boardsTaskPush} from '../columns/columnsSlice';
 import { Droppable } from 'react-beautiful-dnd';
 import { useState } from 'react';
@@ -30,7 +30,7 @@ const Board = ({column, tasks}) => {
                                     )
                                 })}
                                 {provided.placeholder}
-                            {/* {i === 0 ?
+                            
                                 <>
                                     <input 
                                     type="text" 
@@ -39,7 +39,7 @@ const Board = ({column, tasks}) => {
                                     value={value}
                                     onChange = {e => setValue(e.target.value)} />
                                     <button onClick={addTask} className="columns__addTask">Добавить</button>
-                                </> : null} */}
+                                </> 
                         </div>)       
                     }
                 </Droppable>         

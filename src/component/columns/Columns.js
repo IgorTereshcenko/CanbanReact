@@ -10,6 +10,9 @@ const Columns = () => {
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
+
+    const initialState = useSelector(state => state);
+    console.log(initialState);
     
     const dispatch = useDispatch();
     
@@ -45,7 +48,7 @@ const Columns = () => {
         <DragDropContext onDragEnd = {dragEnd}>
             <div className="columns">
                 {columnOrder.map(columnId => {
-                    
+
                     const column = columns[columnId];
                     const task = column.taskIds.map(taskId => tasks[taskId]);
 
