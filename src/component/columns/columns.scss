@@ -1,12 +1,8 @@
 .columns {
-    &__title {
-        text-align: center;
-        margin-top: 20px;
-        font-weight: 700;
-        font-size: 15px;
-        letter-spacing: -0.022em;
-        color: #1E1E1E;
-    }
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
     &__addTask {
         width: 100px;
         height: 38px;
@@ -24,6 +20,15 @@
             background: #62eb8f;
         }
     }
+    &__addTask_column {
+        margin: 12px 0;
+    }
+    &__inputWrapper {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items:flex-end;
+    }
     &__input {
         margin-top: 20px;
         width: 94%;
@@ -31,5 +36,10 @@
         border:none;
         border-bottom:2px solid #E6E6E6;
         font-size: 13px;
+        height: 27px;
+    }
+    &__input_less {
+        width: 162px;
+        margin: 0;
     }
 }

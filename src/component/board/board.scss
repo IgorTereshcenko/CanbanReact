@@ -1,17 +1,33 @@
 .board {
-    display: flex;
-    gap: 40px;
     &__wrapper {
-        position: relative;
-        width: 300px;
-        min-height: 300px;
-        background: #FFFFFF;
+        width: 262px;
+        min-height: 177px;
         border: 2px solid #E6E6E6;
         border-radius: 12px;
         display: flex;
+        align-items: center;
+        flex: none;
         flex-direction: column;
+        background: #e9e9e9;
+        order: 1;
+        flex-grow: 0;
+        padding-bottom: 20px;
     }
     &__wrapper_color {
         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.08), 0px 12px 15px rgba(0, 0, 0, 0.04), 0px 2.5px 2px rgba(0, 0, 0, 0.02);
+    }
+    &__name {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 21px;
+        text-align: center;
+        color: #20941A;
+        word-break: break-all;
+    }
+    &__name_red {
+        color: #C85959;
+    }
+    &__name_yellow {
+        color: #BAA81B;
     }
 }
