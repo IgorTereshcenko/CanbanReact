@@ -1,20 +1,23 @@
 import { useDispatch } from "react-redux";
-import {boardsTaskPush} from '../columns/columnsSlice';
+import {boardsTaskPush, boardTaskIdsPush} from '../columns/columnsSlice';
 import { Droppable, Draggable  } from 'react-beautiful-dnd';
 import { useState } from 'react';
 import Task from '../task/Task';
 import './board.scss';
 
 const Board = ({column, tasks, index}) => {
-
+    console.log(index);
+   
     const dispatch = useDispatch();
 
     const [value, setValue] = useState('');
 
     const addTask = () => {
-        dispatch(boardsTaskPush(value));
-        setValue('');
+        dispatch(boardsTaskPush(value))
+        dispatch(boardTaskIdsPush(column.id));
+        setValue('');   
     }
+
 
     return (
         <div className="board">
@@ -44,7 +47,8 @@ const Board = ({column, tasks, index}) => {
                                             )
                                         })}
                                         {provided.placeholder}
-                                        {column.id === 'column-1' ? 
+                                        {column.id !== 'column-2' && 
+                                         column.id !== 'column-3' ? 
                                             <>
                                                 <input 
                                                 type="text" 

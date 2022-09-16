@@ -11,6 +11,7 @@ const Columns = () => {
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
+    
 
     const [value, setValue] = useState('');
 
@@ -95,6 +96,7 @@ const Columns = () => {
         dispatch(boardsColumnPush(value));
         setValue('');
     }
+    
 
     return(
         <DragDropContext onDragEnd = {dragEnd}>

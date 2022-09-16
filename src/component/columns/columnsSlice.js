@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     tasks: {},
+    newTask: {},
     columns: {
     'column-1':
     {
@@ -19,7 +20,7 @@ const initialState = {
         title: 'Done',
         taskIds: [],
     },
-},  
+},
     columnOrder: ['column-1', 'column-2', 'column-3'],
 };
 
@@ -28,16 +29,18 @@ const columnsSlice = createSlice({
     initialState,
     reducers: {
         boardsTaskPush: (state, action) => {
-            const newTask = {
+            state.newTask = {
                 [`task-${action.payload}`]: {
                     id: `task-${action.payload}`, 
                     content: action.payload
                 },
             }
-            state.tasks = {...state.tasks, ...newTask}
-            for(let item in newTask) {
-                state.columns["column-1"].taskIds.push(item)
-            }
+            state.tasks = {...state.tasks, ...state.newTask}               
+        },
+        boardTaskIdsPush: (state, action) => {
+            for(let item in state.newTask) {
+                state.columns[action.payload].taskIds.push(item)
+           } 
         },
         boardsColumnPush: (state, action) => {
             const newColumn = {
@@ -47,7 +50,7 @@ const columnsSlice = createSlice({
                     taskIds: []
                 }
             }
-            state.columns = {...state.columns, ... newColumn}
+            state.columns = {...state.columns, ...newColumn}
             for(let item in newColumn) {
                 state.columnOrder.push(item)
             }
@@ -70,4 +73,9 @@ const columnsSlice = createSlice({
 const {actions, reducer,} = columnsSlice;
 
 export default reducer;
-export const {boardsTaskPush, boardsDragEnd, boardColumnsDragEnd, boardsColumnPush} = actions;
+export const {
+    boardsTaskPush, 
+    boardsDragEnd, 
+    boardColumnsDragEnd, 
+    boardsColumnPush, 
+    boardTaskIdsPush} = actions;

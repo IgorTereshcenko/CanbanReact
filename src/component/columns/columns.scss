@@ -1,7 +1,5 @@
 .columns {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
     gap: 24px;
     &__addTask {
         width: 100px;
