@@ -1,23 +1,48 @@
 import { useDispatch } from "react-redux";
 import {boardsTaskPush, boardTaskIdsPush} from '../columns/columnsSlice';
 import { Droppable, Draggable  } from 'react-beautiful-dnd';
-import { useState } from 'react';
-import Task from '../task/Task';
+import React, { useEffect, useRef, useState } from 'react';
 import './board.scss';
+import MemoTask from "../task/Task";
 
 const Board = ({column, tasks, index}) => {
-    console.log(index);
-   
+    
+    console.log('boards')
+    
     const dispatch = useDispatch();
 
-    const [value, setValue] = useState('');
+    const [nameTask, setNameTask] = useState('');
+    const [color, setColor] = useState('');
+    const inputRef = useRef(null);
+    
+    useEffect(() => {
+        generateColor();
+    },[])
 
     const addTask = () => {
-        dispatch(boardsTaskPush(value))
+        dispatch(boardsTaskPush(nameTask));
         dispatch(boardTaskIdsPush(column.id));
-        setValue('');   
+        setNameTask('');
     }
 
+    useEffect(() => {
+        const coordinate = inputRef.current.getBoundingClientRect();
+        const clientHeight = document.documentElement.clientHeight;
+        if(coordinate.bottom > clientHeight) {
+            window.scrollBy(0,1000)
+        }
+    },[addTask])
+
+    const generateColor = () => {
+        let letters = "0123456789ABCDEF"
+        let color = '#';
+
+        for (let i = 0; i < 6; i++) {
+            color += letters[(Math.floor(Math.random() * 16))];
+        }
+
+        setColor(color);
+    }
 
     return (
         <div className="board">
@@ -33,31 +58,31 @@ const Board = ({column, tasks, index}) => {
                                     className={snapshot.isDraggingOver ? 'board__wrapper board__wrapper_color' : 'board__wrapper'}
                                     ref={provided.innerRef}
                                     {...provided.droppableProps}>  
-                                        <div className={column.id === 'column-1' ? 'board__name' : column.id === 'column-2' ?
-                                        'board__name board__name_yellow' : 'board__name board__name_red'}>
+                                        <div className='board__name'
+                                             style={{
+                                                color: color
+                                             }}>
                                             {column.title}
                                         </div>
                                         {tasks.map((task,i) => {
                                             return (
-                                                <Task 
+                                                <MemoTask 
                                                     key={task.id} 
                                                     task={task} 
                                                     index={i}
-                                                    column = {column}/>
+                                                    color={color}
+                                                    />
                                             )
                                         })}
                                         {provided.placeholder}
-                                        {column.id !== 'column-2' && 
-                                         column.id !== 'column-3' ? 
-                                            <>
-                                                <input 
-                                                type="text" 
-                                                className="columns__input"
-                                                placeholder='Введите название задачи'
-                                                value={value}
-                                                onChange = {e => setValue(e.target.value)} />
-                                                <button onClick={addTask} className="columns__addTask">Добавить</button>
-                                            </> : null}                                       
+                                        <input 
+                                        type="text"
+                                        className="columns__input"
+                                        placeholder='Введите название задачи'
+                                        value={nameTask}
+                                        onChange = {e => setNameTask(e.target.value)}
+                                          />
+                                        <button onClick={addTask} ref={inputRef} className="columns__addTask">Добавить</button>                                                
                                 </div>)       
                             }
                         </Droppable>
@@ -68,4 +93,6 @@ const Board = ({column, tasks, index}) => {
     )
 }
 
-export default Board;
+const MemoBoard = React.memo(Board);
+
+export default MemoBoard;

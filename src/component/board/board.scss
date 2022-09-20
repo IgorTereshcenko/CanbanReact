@@ -21,13 +21,8 @@
         font-size: 18px;
         line-height: 21px;
         text-align: center;
-        color: #20941A;
         word-break: break-all;
+        -webkit-text-stroke: 0.7px rgb(59, 50, 50);
     }
-    &__name_red {
-        color: #C85959;
-    }
-    &__name_yellow {
-        color: #BAA81B;
-    }
+    
 }

@@ -1,9 +1,12 @@
 /* eslint-disable import/first */
+import React from 'react';
+import { useEffect } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import './task.scss';
 
-const Task = ({task,index,column}) => {
-
+const Task = ({task,index,color}) => {
+    console.log('task')
+    
     return (
         <div className="task">
             <Draggable draggableId={task.id} index={index} >
@@ -11,12 +14,16 @@ const Task = ({task,index,column}) => {
                 <div 
                     className={
                         snapshot.isDragging ? 'task__wrapper task__wrapper_snapshot' : 
-                        column.id === 'column-1' ? 'task__wrapper' : column.id === 'column-2' ?
-                        'task__wrapper task__wrapper_yellow' : 'task__wrapper task__wrapper_red'
+                        'task__wrapper'
                     }
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
+                    style={{
+                        ...provided.draggableProps.style,
+                        border: `1px solid ${color}`
+                        }
+                    } 
                     >
                         <div className="task__name">{task.content}</div> 
                 </div>)}     
@@ -25,4 +32,6 @@ const Task = ({task,index,column}) => {
     )
 }
 
-export default Task;
+const MemoTask = React.memo(Task);
+
+export default MemoTask;

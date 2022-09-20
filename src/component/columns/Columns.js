@@ -1,25 +1,22 @@
 import './columns.scss';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Board from '../board/Board';
 import { boardsDragEnd, boardColumnsDragEnd, boardsColumnPush } from './columnsSlice';
-
+import MemoBoard from '../board/Board';
 
 const Columns = () => {
 
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
-    
+    console.log('all columns')
 
-    const [value, setValue] = useState('');
-
-    const initialState = useSelector(state => state);
-    console.log(initialState);
+    const [boardName, setBoardName] = useState('');
     
     const dispatch = useDispatch();
-    
+
     const dragEnd = result => {
 
         const { destination, source, draggableId, type } = result;
@@ -92,12 +89,15 @@ const Columns = () => {
         dispatch(boardsDragEnd(newState));
     }
 
-    const addColumn = () => {
-        dispatch(boardsColumnPush(value));
-        setValue('');
-    }
-    
+    const addColumn = useCallback(() => {
+        dispatch(boardsColumnPush(boardName));
+        setBoardName('');
+    }, [boardName])
 
+    useEffect(() => {
+        window.scrollBy(1000,0);
+    },[addColumn])
+    
     return(
         <DragDropContext onDragEnd = {dragEnd}>
             <Droppable
@@ -111,11 +111,12 @@ const Columns = () => {
                             {columnOrder.map((columnId,i) => {
                                 const column = columns[columnId];
                                 const task = column.taskIds.map(taskId => tasks[taskId]);
-                                return <Board 
+                                return <MemoBoard 
                                         key={column.id} 
                                         column={column} 
                                         tasks={task} 
-                                        index = {i} />;
+                                        index={i}
+                                        />;
                             })}
                             {provided.placeholder}
                             <div className="columns__inputWrapper">
@@ -123,10 +124,12 @@ const Columns = () => {
                                 type="text" 
                                 className="columns__input columns__input_less"
                                 placeholder='Введите название доски'
-                                value={value}
-                                onChange={e => setValue(e.target.value)}
+                                value={boardName}
+                                onChange={e => setBoardName(e.target.value)}
                                 />
-                                <button onClick={addColumn} className="columns__addTask columns__addTask_column">Добавить</button>
+                                <button onClick={addColumn} className="columns__addTask columns__addTask_column">
+                                    Добавить
+                                </button>
                             </div>   
                         </div>)}                
             </Droppable>
