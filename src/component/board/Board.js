@@ -1,28 +1,33 @@
 import { useDispatch } from "react-redux";
-import {boardsTaskPush, boardTaskIdsPush} from '../columns/columnsSlice';
+import {boardsTaskPush, boardTaskIdsPush, boardColumnDelete} from '../columns/columnsSlice';
 import { Droppable, Draggable  } from 'react-beautiful-dnd';
 import React, { useEffect, useRef, useState } from 'react';
 import './board.scss';
 import MemoTask from "../task/Task";
+import deleteImg from '../../resurses/delete.svg';
+import { useCallback } from "react";
 
 const Board = ({column, tasks, index}) => {
     
-    console.log('boards')
-    
     const dispatch = useDispatch();
-
+    
     const [nameTask, setNameTask] = useState('');
     const [color, setColor] = useState('');
+    
     const inputRef = useRef(null);
     
     useEffect(() => {
         generateColor();
     },[])
 
-    const addTask = () => {
+    const addTask = useCallback(() => {
         dispatch(boardsTaskPush(nameTask));
         dispatch(boardTaskIdsPush(column.id));
         setNameTask('');
+    },[nameTask])
+
+    const deleteColumn = () => {
+        dispatch(boardColumnDelete(column.id));   
     }
 
     useEffect(() => {
@@ -31,7 +36,7 @@ const Board = ({column, tasks, index}) => {
         if(coordinate.bottom > clientHeight) {
             window.scrollBy(0,1000)
         }
-    },[addTask])
+    },[addTask]) 
 
     const generateColor = () => {
         let letters = "0123456789ABCDEF"
@@ -70,8 +75,7 @@ const Board = ({column, tasks, index}) => {
                                                     key={task.id} 
                                                     task={task} 
                                                     index={i}
-                                                    color={color}
-                                                    />
+                                                    color={color}/>
                                             )
                                         })}
                                         {provided.placeholder}
@@ -82,7 +86,10 @@ const Board = ({column, tasks, index}) => {
                                         value={nameTask}
                                         onChange = {e => setNameTask(e.target.value)}
                                           />
-                                        <button onClick={addTask} ref={inputRef} className="columns__addTask">Добавить</button>                                                
+                                        <button onClick={addTask} ref={inputRef} className="board__addTask">Добавить</button>
+                                        <button onClick={deleteColumn} className="board__deleteBoard">
+                                            <img src={deleteImg} alt="deleteimg" />
+                                        </button>                                               
                                 </div>)       
                             }
                         </Droppable>

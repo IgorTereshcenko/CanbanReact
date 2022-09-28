@@ -1,7 +1,7 @@
 .columns {
     display: flex;
     gap: 24px;
-    &__addTask {
+    &__addColumn {
         width: 100px;
         height: 38px;
         background: #85E0A3;
@@ -10,16 +10,10 @@
         color: #1E1E1E;
         font-weight: 700;
         font-size: 15px;
-        margin-left: auto;
-        margin-right: 20px;
-        margin-top: 20px;
-        margin-bottom: 10px;
+        margin: 12px 0;
         &:hover {
             background: #62eb8f;
         }
-    }
-    &__addTask_column {
-        margin: 12px 0;
     }
     &__inputWrapper {
         padding-right: 30px;
@@ -41,4 +35,5 @@
         width: 162px;
         margin: 0;
     }
+   
 }

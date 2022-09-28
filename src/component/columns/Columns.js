@@ -2,7 +2,6 @@ import './columns.scss';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Board from '../board/Board';
 import { boardsDragEnd, boardColumnsDragEnd, boardsColumnPush } from './columnsSlice';
 import MemoBoard from '../board/Board';
 
@@ -11,7 +10,8 @@ const Columns = () => {
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
-    console.log('all columns')
+    const state = useSelector(state => state)
+    console.log(state)
 
     const [boardName, setBoardName] = useState('');
     
@@ -97,7 +97,7 @@ const Columns = () => {
     useEffect(() => {
         window.scrollBy(1000,0);
     },[addColumn])
-    
+
     return(
         <DragDropContext onDragEnd = {dragEnd}>
             <Droppable
@@ -127,7 +127,7 @@ const Columns = () => {
                                 value={boardName}
                                 onChange={e => setBoardName(e.target.value)}
                                 />
-                                <button onClick={addColumn} className="columns__addTask columns__addTask_column">
+                                <button onClick={addColumn} className="columns__addColumn">
                                     Добавить
                                 </button>
                             </div>   

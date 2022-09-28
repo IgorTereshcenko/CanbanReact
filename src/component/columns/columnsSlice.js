@@ -4,7 +4,7 @@ const initialState = {
     tasks: {},
     newTask: {},
     columns: {
-    'column-1':
+    ['column-1']:
     {
         id: 'column-1',
         title: 'To do',
@@ -32,6 +32,21 @@ const columnsSlice = createSlice({
                 state.columns[action.payload].taskIds.push(item)
            } 
         },
+        boardTaskDelete: (state, action) => {
+            for(let item in state.tasks) {
+                if(item === action.payload) {
+                    Reflect.deleteProperty(state.tasks, item);
+                }
+            }
+            for(let item in state.newTask) {
+                if(item === action.payload) {
+                    Reflect.deleteProperty(state.newTask, item);
+                }
+            }
+            for(let col in state.columns) {
+                state.columns[col].taskIds = state.columns[col].taskIds.filter(item => item !== action.payload);
+            }      
+        },
         boardsColumnPush: (state, action) => {
             const newColumn = {
                 [`column-${action.payload}`]: {
@@ -44,6 +59,9 @@ const columnsSlice = createSlice({
             for(let item in newColumn) {
                 state.columnOrder.push(item)
             }
+        },
+        boardColumnDelete: (state, action) => {
+            state.columnOrder = state.columnOrder.filter(item => item !== action.payload);
         },
         boardsDragEnd: (state, action) => {
             return {
@@ -68,4 +86,6 @@ export const {
     boardsDragEnd, 
     boardColumnsDragEnd, 
     boardsColumnPush, 
-    boardTaskIdsPush} = actions;
+    boardTaskIdsPush,
+    boardTaskDelete,
+    boardColumnDelete} = actions;
