@@ -7,13 +7,13 @@ import { boardTaskDelete } from '../columns/columnsSlice';
 import deleteImg from '../../resurses/delete.svg';
 
 const Task = ({task,index,color}) => {
-
+    
     const dispatch = useDispatch();
 
     const deleteTask = () => {
         dispatch(boardTaskDelete(task.id));
     }
-    
+
     return (
         <div className="task">
             <Draggable draggableId={task.id} index={index} >

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import {boardsTaskPush, boardTaskIdsPush, boardColumnDelete} from '../columns/columnsSlice';
+import {boardsTaskPush, boardTaskIdsPush, boardColumnDelete, boardTaskDelete} from '../columns/columnsSlice';
 import { Droppable, Draggable  } from 'react-beautiful-dnd';
 import React, { useEffect, useRef, useState } from 'react';
 import './board.scss';
@@ -25,9 +25,12 @@ const Board = ({column, tasks, index}) => {
         dispatch(boardTaskIdsPush(column.id));
         setNameTask('');
     },[nameTask])
-
+ 
     const deleteColumn = () => {
-        dispatch(boardColumnDelete(column.id));   
+        dispatch(boardColumnDelete(column.id));
+        for(let item of tasks) {
+            dispatch(boardTaskDelete(item.id))
+        }   
     }
 
     useEffect(() => {
@@ -52,9 +55,9 @@ const Board = ({column, tasks, index}) => {
     return (
         <div className="board">
             <Draggable draggableId = {column.id} index={index}>
-                {provided => (
+                {(provided) => (
                     <div className="board__over"
-                    {...provided.draggableProps} 
+                    {...provided.draggableProps}
                     ref={provided.innerRef}
                     {...provided.dragHandleProps}>
                         <Droppable droppableId={column.id} type = 'task'>
@@ -85,8 +88,13 @@ const Board = ({column, tasks, index}) => {
                                         placeholder='Введите название задачи'
                                         value={nameTask}
                                         onChange = {e => setNameTask(e.target.value)}
-                                          />
-                                        <button onClick={addTask} ref={inputRef} className="board__addTask">Добавить</button>
+                                        />
+                                        <button 
+                                            onClick={addTask} 
+                                            ref={inputRef} 
+                                            className="board__addTask"
+                                            disabled = {nameTask.length > 0 ? false : true}
+                                            >Добавить</button>
                                         <button onClick={deleteColumn} className="board__deleteBoard">
                                             <img src={deleteImg} alt="deleteimg" />
                                         </button>                                               

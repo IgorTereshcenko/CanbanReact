@@ -10,9 +10,7 @@ const Columns = () => {
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
-    const state = useSelector(state => state)
-    console.log(state)
-
+    
     const [boardName, setBoardName] = useState('');
     
     const dispatch = useDispatch();
@@ -127,7 +125,10 @@ const Columns = () => {
                                 value={boardName}
                                 onChange={e => setBoardName(e.target.value)}
                                 />
-                                <button onClick={addColumn} className="columns__addColumn">
+                                <button 
+                                    onClick={addColumn} 
+                                    className="columns__addColumn"
+                                    disabled = {boardName.length > 0 ? false : true}>
                                     Добавить
                                 </button>
                             </div>   

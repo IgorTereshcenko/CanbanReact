@@ -14,9 +14,11 @@
         &:hover {
             background: #62eb8f;
         }
+        &:disabled {
+            background: #85E0A3;
+        }
     }
     &__inputWrapper {
-        padding-right: 30px;
         width: 200px;
         display: flex;
         flex-direction: column;

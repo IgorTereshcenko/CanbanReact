@@ -49,6 +49,9 @@
         &:hover {
             background: #62eb8f;
         }
+        &:disabled {
+            background: #85E0A3;
+        }
     }
     
 }

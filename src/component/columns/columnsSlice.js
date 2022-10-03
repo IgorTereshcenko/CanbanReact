@@ -2,16 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     tasks: {},
-    newTask: {},
-    columns: {
-    ['column-1']:
-    {
-        id: 'column-1',
-        title: 'To do',
-        taskIds: [],
-    }
-},
-    columnOrder: ['column-1'],
+    newTask: null,
+    taskNum: 0,
+    colNum: 0,
+    columns: {},
+    columnOrder: [],
 };
 
 const columnsSlice = createSlice({
@@ -19,18 +14,21 @@ const columnsSlice = createSlice({
     initialState,
     reducers: {
         boardsTaskPush: (state, action) => {
+            state.taskNum = state.taskNum + 1;
             state.newTask = {
-                [`task-${action.payload}`]: {
-                    id: `task-${action.payload}`, 
+                [`task-${state.taskNum}`]: {
+                    id:`task-${state.taskNum}` , 
                     content: action.payload
                 },
             }
             state.tasks = {...state.tasks, ...state.newTask}               
         },
         boardTaskIdsPush: (state, action) => {
-            for(let item in state.newTask) {
-                state.columns[action.payload].taskIds.push(item)
-           } 
+            for (let key in state.newTask) {
+                let value = state.newTask[key]
+                let taskId = Object.values(value)
+                state.columns[action.payload].taskIds.push(taskId[0])
+            }
         },
         boardTaskDelete: (state, action) => {
             for(let item in state.tasks) {
@@ -48,9 +46,10 @@ const columnsSlice = createSlice({
             }      
         },
         boardsColumnPush: (state, action) => {
+            state.colNum = state.colNum + 1;
             const newColumn = {
-                [`column-${action.payload}`]: {
-                    id: `column-${action.payload}`,
+                [`column-${state.colNum}`]: {
+                    id: `column-${state.colNum}`,
                     title: action.payload,
                     taskIds: []
                 }
@@ -61,6 +60,11 @@ const columnsSlice = createSlice({
             }
         },
         boardColumnDelete: (state, action) => {
+            for(let item in state.columns) {
+                if (item === action.payload) {
+                    Reflect.deleteProperty(state.columns, item);
+                }
+            }
             state.columnOrder = state.columnOrder.filter(item => item !== action.payload);
         },
         boardsDragEnd: (state, action) => {

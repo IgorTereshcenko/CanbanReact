@@ -2,14 +2,9 @@
     min-width: fit-content;
     background-image: linear-gradient(235.09deg, #AFECD4 25.34%, #A0D4E2 76.89%);
     min-height: fit-content;
-    
-    &__header {
-        display: flex;
-        justify-content: center;
-    }
+    padding: 20px 35px;
     &__canvas {
         display: flex;
-        margin-left: 64px;
         margin-top: 30px;
         min-height: 100vh;
     }
