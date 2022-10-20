@@ -7,6 +7,8 @@ const initialState = {
     colNum: 0,
     columns: {},
     columnOrder: [],
+    email: '',
+    password: ''
 };
 
 const columnsSlice = createSlice({
@@ -78,6 +80,18 @@ const columnsSlice = createSlice({
                 ...state,
                 columnOrder: action.payload
             }
+        },
+        boardCreateEmail: (state, action) => {
+            return {
+                ...state,
+                email: action.payload
+            }
+        },
+        boardCreatePassword: (state, action) => {
+            return {
+                ...state,
+                password: action.payload
+            }
         }
     }
 });
@@ -92,4 +106,6 @@ export const {
     boardsColumnPush, 
     boardTaskIdsPush,
     boardTaskDelete,
-    boardColumnDelete} = actions;
+    boardColumnDelete,
+    boardCreateEmail,
+    boardCreatePassword} = actions;

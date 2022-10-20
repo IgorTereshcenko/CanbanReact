@@ -1,5 +1,6 @@
 .columns {
     display: flex;
+    position: relative;
     gap: 24px;
     &__addColumn {
         width: 100px;
@@ -7,7 +8,7 @@
         background: #85E0A3;
         border: none;
         box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08), 0px 3px 5px rgba(0, 0, 0, 0.04), 0px 2.5px 2px rgba(0, 0, 0, 0.02);
-        color: #1E1E1E;
+        color: #2b1074;
         font-weight: 700;
         font-size: 15px;
         margin: 12px 0;
@@ -26,16 +27,57 @@
     }
     &__input {
         margin-top: 20px;
-        width: 94%;
-        margin-left: 10px;
+        width: 85%;
         border:none;
         border-bottom:2px solid #E6E6E6;
-        font-size: 13px;
         height: 27px;
+        background:none;
+        border: 1.5px solid #2b1074;
+        border-radius: 6px;
+        font-weight: 400;
+        font-size: 14px;
+        padding: 10px 10px;
+        color: #2b1074;
+    }
+    ::placeholder {
+        color: #2b1074;
+        opacity: 1;
     }
     &__input_less {
-        width: 162px;
+        width: 201px;
+        height: 36px;
         margin: 0;
+    }
+    &__signOut {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        display: block;
+        border: 2px solid #2b1074;
+        border-radius: 8px;
+        background:none;
+        font-weight: 700;
+        color: #2b1074;
+        padding: 10px 10px;
+        box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08), 0px 3px 5px rgba(0, 0, 0, 0.04), 0px 2.5px 2px rgba(0, 0, 0, 0.02);
+        &:hover {
+            background:#FF0000;
+            border:none;
+            color:#ffffff;
+        }
+    }
+    &__linkAccounts {
+        position: fixed;
+        bottom: 15px;
+        right: 200px;
+        display: block;
+        border: 2px solid #2b1074;
+        border-radius: 8px;
+        background:none;
+        font-weight: 700;
+        color: #2b1074;
+        padding: 10px 10px;
+        box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.08), 0px 3px 5px rgba(0, 0, 0, 0.04), 0px 2.5px 2px rgba(0, 0, 0, 0.02);
     }
    
 }

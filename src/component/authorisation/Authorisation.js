@@ -1,5 +1,5 @@
 import './authorisation.scss';
-import { GithubAuthProvider, signInWithRedirect, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup  } from "firebase/auth";
+import { GithubAuthProvider, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup  } from "firebase/auth";
 import { auth } from '../../firebaseConfig';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -8,27 +8,29 @@ import gitHubImg from '../../resurses/github-icon.svg';
 
 const Authorisation = () => {
 
-    const gitHubprovider = new GithubAuthProvider();
+    const gitHubProvider = new GithubAuthProvider();
     const googleProvider = new GoogleAuthProvider();
 
     const signGithub = () => {
-        signInWithRedirect(auth, gitHubprovider)
+        signInWithPopup(auth, gitHubProvider)
             .then(result => {
                 const credential = GithubAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
                 const user = result.user;
+                console.log(token);
+                console.log(user);
             })
             .catch(error => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage);
-            })
+            })       
     }
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
-
+   
     const emailPasswordSignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -40,6 +42,8 @@ const Authorisation = () => {
                 console.log(errorCode, errorMessage);
                 setError(true);
             });
+            setEmail('');
+            setPassword('');
     }
 
     const googleSignIn = async () => {

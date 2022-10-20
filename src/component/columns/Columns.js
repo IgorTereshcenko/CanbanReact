@@ -1,15 +1,24 @@
 import './columns.scss';
+import { auth } from '../../firebaseConfig';
+import ReactTooltip from 'react-tooltip';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { boardsDragEnd, boardColumnsDragEnd, boardsColumnPush } from './columnsSlice';
 import MemoBoard from '../board/Board';
+import { GithubAuthProvider,linkWithPopup,EmailAuthProvider,linkWithCredential, GoogleAuthProvider } from "firebase/auth";
 
 const Columns = () => {
 
     const columns = useSelector(state => state.boards.columns);
     const tasks = useSelector(state => state.boards.tasks);
     const columnOrder = useSelector(state => state.boards.columnOrder);
+    const email = useSelector(state => state.boards.email);
+    const password = useSelector(state => state.boards.password);
+
+    const gitHubProvider = new GithubAuthProvider();
+    const googleProvider = new GoogleAuthProvider();
+    const credential = EmailAuthProvider.credential(email, password);
     
     const [boardName, setBoardName] = useState('');
     
@@ -96,6 +105,39 @@ const Columns = () => {
         window.scrollBy(1000,0);
     },[addColumn])
 
+    const multipleAuthProviders = () => {
+        let providerId = auth.currentUser.providerData.map(item => item.providerId)
+        if(providerId.includes('password')) {
+            linkWithPopup(auth.currentUser, gitHubProvider)
+                .then((result) => {
+                    const credential = GithubAuthProvider.credentialFromResult(result);
+                    const user = result.user;
+            })  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage);
+            });
+        } else if (providerId.includes('github.com')) {
+            linkWithCredential(auth.currentUser, credential)
+                .then((usercred) => {
+                    const user = usercred.user;
+                    console.log("Account linking success", user);
+                }).catch((error) => {
+                    console.log("Account linking error", error);
+                });
+        } else {
+            linkWithPopup(auth.currentUser, googleProvider)
+                .then((result) => {
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const user = result.user;
+            })  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorCode, errorMessage);
+            });
+        }        
+    }
+
     return(
         <DragDropContext onDragEnd = {dragEnd}>
             <Droppable
@@ -131,7 +173,19 @@ const Columns = () => {
                                     disabled = {boardName.length > 0 ? false : true}>
                                     Добавить
                                 </button>
-                            </div>   
+                            </div>
+                            <button onClick={() => auth.signOut()} className="columns__signOut">Выйти из аккаунта</button>
+                            <ReactTooltip id='1' type='info' place='top'>
+                                <span>Если почта, которую вы используете при регистрации и почта на ваших аккаунтах 
+                                    в Google или GitHub совпадает, вы можете связать аккаунты, чтобы в дальнейшем 
+                                    производить вход любым удобным для вас способом.
+                                </span>
+                            </ReactTooltip>
+                                <button 
+                                    onClick={multipleAuthProviders}
+                                    data-tip data-for='1'
+                                    className="columns__linkAccounts">Связать аккаунты</button> 
+                              
                         </div>)}                
             </Droppable>
         </DragDropContext>

@@ -4,11 +4,16 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../firebaseConfig';
 import arrowImg from '../../resurses/eva_arrow-ios-back-outline.svg';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { boardCreateEmail, boardCreatePassword } from '../columns/columnsSlice';
 
 const Registration = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const email = useSelector(state => state.boards.email);
+    const password = useSelector(state => state.boards.password);
+
+    const dispatch = useDispatch();
+
     const [validPassword, setValidPassword] = useState('');
     
     const emailPasswordReg = () => {
@@ -19,10 +24,9 @@ const Registration = () => {
             .catch((error) => {
                 const errorMessage = error.message;
                 setValidPassword(errorMessage);
-        })
-       
+        })   
     }
-    
+
     return (
         <div className="reg">
             <div className="reg__wrapper">
@@ -38,7 +42,7 @@ const Registration = () => {
                             id='email'
                             required
                             value={email}
-                            onChange = {e => setEmail(e.target.value)} />
+                            onChange = {e => dispatch(boardCreateEmail(e.target.value))} />
                         <label htmlFor="password">Пароль</label>
                         <input 
                             type="password"
@@ -46,7 +50,7 @@ const Registration = () => {
                             id='password'
                             required
                             value={password}
-                            onChange = {e => setPassword(e.target.value)}
+                            onChange = {e => dispatch(boardCreatePassword(e.target.value))}
                             />
                             {validPassword ? <span>{validPassword.substring(9,50)}</span> : null}
                     </div>
@@ -58,6 +62,7 @@ const Registration = () => {
             </div>
         </div>
     )
+    
 }
 
 export default Registration;

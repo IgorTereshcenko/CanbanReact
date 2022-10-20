@@ -8,11 +8,11 @@ import Registration from "./component/registration/Registration";
 const App = () => {
 
     const [user] = useAuthState(auth);
-
+    
     return (
         <Router>
             <Routes>
-                <Route path="/" element={user ? <MainPage /> : <Authorisation />} />
+                <Route path="/" element={user ? <MainPage/> : <Authorisation/>} />
                 <Route path="/registration" element = {user ? <MainPage/> : <Registration/>} />
             </Routes>
      </Router>
